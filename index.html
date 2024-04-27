@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+    <title>Title</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      height: 100vh;
+      background: -webkit-linear-gradient(
+        45deg,
+        rgb(255, 52, 159),
+        rgb(135, 249, 252)
+      );
+      background: -moz-linear-gradient(
+        45deg,
+        rgb(255, 52, 159),
+        rgb(135, 249, 252)
+      );
+      background: linear-gradient(45deg, rgb(255, 52, 159), rgb(135, 249, 252));
+    }
+    .app {
+      font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      width: min(95vw, 31.25rem);
+      position: absolute;
+      margin: auto;
+      left: 0;
+      right: 0;
+      top: 1.875rem;
+    }
+
+    .container {
+      padding: 2em 2.5em;
+      background: #ffffff65;
+      border-radius: 0.8em;
+      -webkit-box-shadow: 0px -1px 26px 9px rgba(11, 39, 60, 0.2);
+      -moz-box-shadow: 0px -1px 26px 9px rgba(11, 39, 60, 0.2);
+      box-shadow: 0px -1px 26px 9px rgba(11, 39, 60, 0.2);
+    }
+    #wrapper {
+      position: relative;
+      display: grid;
+      grid-template-columns: 8fr 4fr;
+      gap: 1em;
+    }
+    #wrapper input {
+      width: 100%;
+      background-color: transparent;
+      color: #111111;
+      font-size: 0.9em;
+      border: none;
+      border-bottom: 2px solid gray;
+      padding: 1em 0.5em;
+    }
+    #wrapper input:focus {
+      outline: none;
+      border-bottom: 2px solid rgb(6, 6, 196);
+    }
+    #wrapper button {
+      position: relative;
+      border-radius: 0.5em;
+      font-weight: 500;
+      font-size: 1em;
+      background: linear-gradient(45deg, #37ecba, #72afd3);
+      border: none;
+      outline: none;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    #tasks {
+      margin-top: 1em;
+      border-radius: 0.5em;
+      width: 100%;
+      position: relative;
+      padding: 1em 0.5em;
+    }
+
+    .task {
+      background-color: #ffffff57;
+      padding-left: 17px;
+      display: grid;
+      grid-template-columns: 1fr 8fr 2fr 2fr;
+      gap: 0;
+      border-radius: 15px !important;
+      box-shadow: 0 0.5em 1em rgb(0, 0, 0, 0.05);
+      align-items: center;
+    }
+    .task:not(:first-child) {
+      margin-top: 1em;
+    }
+
+    .task input[type="checkbox"] {
+      width: 17px;
+      height: 17px;
+      border: 2px solid #fff;
+      border-radius: 50% !important;
+    }
+    /* 
+    .task input[type="checkbox"]::before {
+      content: "";
+      position: absolute;
+      transform: translate(-50% -50%);
+      top: 50%;
+      left: 50%;
+    } */
+    .task input[type="checkbox"]:checked {
+      background-color: #5a95ff;
+      border-color: #5a95ff;
+    }
+
+    .task span {
+      font: 0.9em;
+      font-weight: 400;
+      word-break: break-all;
+    }
+
+    .task button {
+      color: white;
+      width: 100%;
+      padding: 1em 0;
+      border-radius: 0.05em;
+      border: none;
+      cursor: pointer;
+      outline: none;
+    }
+    .edit {
+      color: #378eec !important;
+      background: transparent !important;
+    }
+    .delete {
+      color: #dd0808 !important;
+      background: transparent !important;
+    }
+
+    #pending-tasks span {
+      color: #5a95ff;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #4c4c4c8e;
+    }
+    #error {
+      text-align: center;
+      background-color: #fff;
+      color: #ff5c5c;
+      margin-top: 1.5em;
+      padding: 1em 0;
+      border-radius: 0.8em;
+      display: none;
+    }
+  </style>
+  <body>
+    <div class="app">
+      <div class="container">
+        <div id="wrapper">
+          <input type="text" placeholder="Task to be Done...." />
+          <button id="add-btn">Add</button>
+        </div>
+        <div id="tasks">
+          <p id="pendeng-task">
+            You have
+            <span class="count-value">0</span>
+            task(s) to complete.
+          </p>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const addBtn = document.getElementById("add-btn");
+      const newTaskInput = document.querySelector("#wrapper input");
+      const tasksContainer = document.getElementById("tasks");
+      const error = document.getElementById("error");
+      const countValue = document.querySelector(".count-value");
+
+      let taskCount = 0;
+
+      const displayCount = (taskCount) => {
+        countValue.innerText = taskCount;
+      };
+
+      const addTask = () => {
+        const taskName = newTaskInput.value.trim();
+
+        if (!taskName) {
+          setTimeout(() => {
+            error.style.display = "block";
+          }, 200);
+          return;
+        }
+
+        const task = `
+    <div class="task">
+      <input type="checkbox" class="task-check">
+      <span class="taskname">${taskName}</span>
+      <button class="edit">
+        <i class="fa-solid fa-pencil"></i>
+      </button>
+      <button class="delete">
+        <i class="fa-solid fa-trash-can" style="color: #b80012;"></i>
+      </button>
+    </div>`;
+        tasksContainer.insertAdjacentHTML("beforeend", task);
+
+        taskCount++;
+        displayCount(taskCount);
+
+        const deleteButtons = document.querySelectorAll(".delete");
+        deleteButtons.forEach((button) => {
+          button.onclick = () => {
+            button.parentNode.remove();
+            taskCount--;
+            displayCount(taskCount);
+          };
+        });
+
+        const editButtons = document.querySelectorAll(".edit");
+        editButtons.forEach((button) => {
+          button.onclick = (e) => {
+            let targetElement = e.target;
+            if (e.target.className !== "edit") {
+              targetElement = e.target.parentElement;
+            }
+            newTaskInput.value = targetElement.previousElementSibling.innerText;
+            targetElement.parentElement.remove();
+            taskCount--;
+            displayCount(taskCount);
+          };
+        });
+
+        const taskChecks = document.querySelectorAll(".task-check");
+        taskChecks.forEach((checkbox) => {
+          checkbox.onchange = () => {
+            checkbox.nextElementSibling.classList.toggle("completed");
+
+            if (checkbox.checked) {
+              taskCount--;
+            } else {
+              taskCount++;
+            }
+            displayCount(taskCount);
+          };
+        });
+      };
+
+      addBtn.addEventListener("click", addTask);
+
+      window.onload = () => {
+        taskCount = 0;
+        displayCount(taskCount);
+        newTaskInput.value = "";
+      };
+    </script>
+  </body>
+</html>
